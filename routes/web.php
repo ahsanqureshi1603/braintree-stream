@@ -30,9 +30,7 @@ Route::post('custom-registration', [CustomAuthController::class, 'customRegistra
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 
 Route::post('subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+Route::post('unsubscribe', [SubscriptionController::class, 'unsubscribe'])->name('unsubscribe');
 
 Route::get('payment', [SubscriptionController::class, 'token'])->name('token');
 Route::post('payment', [SubscriptionController::class, 'token'])->name('token');
-
-
-// Route::get('test-ahsan', [SubscriptionController::class, 'testAhsan'])->name('testAhsan');

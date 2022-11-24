@@ -23,10 +23,12 @@ class Subscription extends Model
 
     const CUSTOMER_CREATED = 'customer_created';
     const ACTIVE = 'active';
+    const DEACTIVATED = 'deactivated';
 
     const STATUS = [
         Subscription::CUSTOMER_CREATED,
-        Subscription::ACTIVE
+        Subscription::ACTIVE,
+        Subscription::DEACTIVATED,
     ];
 
     const PLAN_TYPE_MONTHLY = 'monthly';
