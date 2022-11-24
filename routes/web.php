@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\SubscriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,10 +22,17 @@ Route::get('/', function () {
 });
 
 
-
 Route::get('dashboard', [CustomAuthController::class, 'dashboard']);
 Route::get('login', [CustomAuthController::class, 'index'])->name('login');
 Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom');
 Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
 Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom');
 Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
+
+Route::post('subscribe', [SubscriptionController::class, 'subscribe'])->name('subscribe');
+
+Route::get('payment', [SubscriptionController::class, 'token'])->name('token');
+Route::post('payment', [SubscriptionController::class, 'token'])->name('token');
+
+
+// Route::get('test-ahsan', [SubscriptionController::class, 'testAhsan'])->name('testAhsan');

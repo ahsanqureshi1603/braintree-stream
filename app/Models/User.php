@@ -42,4 +42,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function subscription()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+
+    /**
+     *
+     * @author Ahsan Qureshi
+     *
+     * @return bool
+     */
+    public function isSubscribed()
+    {
+        $isSubscribed = Subscription::where('user_id', $this->id)->where('status', Subscription::ACTIVE)->exists();
+        return $isSubscribed;
+    }
 }
