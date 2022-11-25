@@ -98,7 +98,7 @@ class SubscriptionController extends Controller
             ]);
             if ($request->input('nonce') != null) {
                 $user = Auth::user();
-                $subscription = Subscription::where('user_id', $user->id)->first();
+                $subscription = Subscription::where('user_id', $user->id)->where('status', '<>', Subscription::DEACTIVATED)->first();
                 $nonceFromTheClient = $request->input('nonce');
                 DB::beginTransaction();
                 $paymentMethodresult = $gateway->paymentMethod()->create([
