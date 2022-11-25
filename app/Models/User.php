@@ -50,7 +50,7 @@ class User extends Authenticatable
 
 
     /**
-     *
+     * Checks if user's braintree subscription is active
      * @author Ahsan Qureshi
      *
      * @return bool

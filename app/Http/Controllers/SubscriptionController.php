@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Subscription;
-use Braintree\Customer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class SubscriptionController extends Controller
 {
+
+    /**
+     * First step of braintree payment cycle
+     * Creates a customer entity at Braintree 
+     * (Reference : https://developer.paypal.com/braintree/docs/reference/request/customer/create)
+     * Saves the above customer information and associates it with the logged in user
+     *
+     * @author Ahsan Qureshi <ahsanqureshi1603@mim-essay.com>
+     * @param  Request      $request
+     * @redirect /payment
+     */
 
     public function subscribe(Request $request)
     {
@@ -57,6 +66,26 @@ class SubscriptionController extends Controller
         return redirect("login")->withSuccess('Login details are not valid');
     }
 
+    /**
+     * Step 2, 3 and 4 of the payment cycle
+     * Step 2:
+     * On payment page we send '$clientToken' to the javascript (of the page)
+     * (Reference : https://developer.paypal.com/braintree/docs/reference/request/client-token/generate/php)
+     * And the payment options are shown
+     * Once user enters right card to the system on submit we go to step 3
+     * Step 3:
+     * Function gets 'nonce' in the request of the above submit
+     * The above 'nonce' is a on time javascript token used to create payment method for the 'customer'
+     * (Reference : https://developer.paypal.com/braintree/docs/reference/request/payment-method/create)
+     * Step 4:
+     * We create the a selected subscription for the user using the 'payment method token'
+     * (Reference : https://developer.paypal.com/braintree/docs/reference/request/subscription/create)
+     * Once the a subscription is made at braintree. Rebilling is taken care of by Braintree
+     * @author Ahsan Qureshi <ahsanqureshi1603@mim-essay.com>
+     * @param  Request      $request
+     * 
+     * @redirect /dashboard
+     */
 
     public function token(Request $request)
     {
@@ -93,6 +122,15 @@ class SubscriptionController extends Controller
             }
         }
     }
+
+    /**
+     * Cancels the subscription created for the user
+     * (Reference : https://developer.paypal.com/braintree/docs/reference/request/subscription/cancel)
+     * @author Ahsan Qureshi <ahsanqureshi1603@mim-essay.com>
+     * @param  Request      $request
+     * 
+     * @redirect /dashboard
+     */
 
     public function unSubscribe(Request $request)
     {
